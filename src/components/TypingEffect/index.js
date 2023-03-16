@@ -30,12 +30,21 @@ const TypingEffect = ({
     return () => clearTimeout(timer);
   }, [currentMessage, message, speed, typing, eraseSpeed, shouldErase]);
 
+  useEffect(() => {
+    if (message !== currentMessage) {
+      setCurrentMessage("");
+      setTyping(true);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [message]);
+
   return (
     <div className="typing-effect-container">
-      <div className="typing-effect-avatar">
-        <img src={avatar} alt="Avatar" />
-      </div>
-      <div className="typing-effect-arrow"></div>
+      {avatar && (
+        <div className="typing-effect-avatar">
+          <img src={avatar} alt="Avatar" />
+        </div>
+      )}
       <div className="typing-effect-message">
         {currentMessage}
         <span style={{ visibility: typing ? "visible" : "hidden" }}>|</span>

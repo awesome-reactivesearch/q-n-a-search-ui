@@ -6,6 +6,7 @@
   overflow: hidden;
   max-height: 250px;
   margin-top: 1rem;
+  color: white;
 }
 
 .card-image {
@@ -27,6 +28,7 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  overflow: auto;
 }
 
 .card-title {
@@ -61,8 +63,8 @@
 }
 
 .card-release {
-  font-size: 0.9rem;
-  color: #777;
+  font-size: 01.2rem;
+  color: #0077ff;
 }
 
 .card-vote {
