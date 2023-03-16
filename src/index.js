@@ -1,17 +1,59 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import './index.css';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
+import ReactDOM from "react-dom/client";
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
-root.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>
+import {
+  ReactiveBase,
+  SearchBox,
+  ReactiveList,
+} from "@appbaseio/reactivesearch";
+
+import "./index.css";
+import Card from "./components/Card";
+
+const Main = () => (
+  <ReactiveBase
+    app="movies-demo-app"
+    url="https://a03a1cb71321:75b6603d-9456-4a5a-af6b-a487b309eb61@appbase-demo-ansible-abxiydt-arc.searchbase.io"
+    reactivesearchAPIConfig={{
+      recordAnalytics: true,
+      userId: "jon",
+    }}
+    enableAppbase
+    // endpoint={{
+    //   url: "https://a03a1cb71321:75b6603d-9456-4a5a-af6b-a487b309eb61@appbase-demo-ansible-abxiydt-arc.searchbase.io/movies-ai/_reactivesearch",
+    //   method: "POST",
+    // }}
+  >
+    <div className="row">
+      <div className="col">
+        <SearchBox
+          dataField={["original_title", "original_title.search"]}
+          componentId="search"
+          highlight
+          URLParams
+          searchboxId="q_and_a_search_ui"
+          showClear
+        />
+        <br />
+        <ReactiveList
+          componentId="SearchResult"
+          dataField="original_title"
+          size={10}
+          className="result-list-container"
+          pagination
+          react={{
+            and: "search",
+          }}
+          render={({ data }) => (
+            <ReactiveList.ResultCardsWrapper>
+              {data.map((item) => (
+                <Card {...item} />
+              ))}
+            </ReactiveList.ResultCardsWrapper>
+          )}
+        />
+      </div>
+    </div>
+  </ReactiveBase>
 );
-
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-reportWebVitals();
+const root = ReactDOM.createRoot(document.getElementById("root"));
+root.render(<Main />);
