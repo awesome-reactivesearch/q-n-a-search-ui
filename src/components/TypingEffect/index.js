@@ -37,6 +37,9 @@ const TypingEffect = ({
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [message]);
+  const typingIndicator = `<span style={{ visibility: ${
+    typing ? "visible" : "hidden"
+  } }}>|</span>`;
 
   return (
     <div className="typing-effect-container">
@@ -45,10 +48,12 @@ const TypingEffect = ({
           <img src={avatar} alt="Avatar" />
         </div>
       )}
-      <div className="typing-effect-message">
-        {currentMessage}
-        <span style={{ visibility: typing ? "visible" : "hidden" }}>|</span>
-      </div>
+      <div
+        className="typing-effect-message"
+        dangerouslySetInnerHTML={{
+          __html: currentMessage + typingIndicator,
+        }}
+      ></div>
     </div>
   );
 };

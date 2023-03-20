@@ -10,6 +10,7 @@ import "./index.css";
 import Card from "./components/Card";
 import TypingEffect from "./components/TypingEffect";
 import { useEffect, useState } from "react";
+import { formatText } from "./utils/helper";
 const SEARCHBOX_COMPONENT_ID = "search";
 const Main = () => {
   const [aiResponse, setAiResponse] = useState("");
@@ -56,11 +57,12 @@ const Main = () => {
             URLParams
             searchboxId="q_and_a_search_ui"
             showClear
+            debounce={500}
           />
           {!isResultsLoading && aiResponse && (
             <div className="ai-response-wrapper">
               <TypingEffect
-                message={aiResponse}
+                message={formatText(aiResponse)}
                 speed={10}
                 eraseSpeed={20}
                 avatar={"https://www.svgrepo.com/show/361202/hubot.svg"}
