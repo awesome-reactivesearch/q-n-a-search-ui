@@ -25,8 +25,6 @@ const Main = () => {
 
   return (
     <ReactiveBase
-      app="movies-demo-app"
-      url="https://a03a1cb71321:75b6603d-9456-4a5a-af6b-a487b309eb61@appbase-demo-ansible-abxiydt-arc.searchbase.io"
       theme={{
         typography: {
           fontFamily: "monospace",
@@ -58,6 +56,7 @@ const Main = () => {
             searchboxId="q_and_a_search_ui"
             showClear
             debounce={500}
+            defaultValue="Movies released in the year 2021"
           />
           {!isResultsLoading && aiResponse && (
             <div className="ai-response-wrapper">
