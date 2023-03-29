@@ -41,6 +41,7 @@ const Main = () => {
             showClear
             debounce={500}
             highlight={false}
+            defaultValue="Movies released in the year 2021"
           />
           {!isResultsLoading && (
             <AIAnswer
