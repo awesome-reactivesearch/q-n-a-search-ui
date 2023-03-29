@@ -4,29 +4,25 @@ import {
   ReactiveBase,
   SearchBox,
   ReactiveList,
+  AIAnswer,
 } from "@appbaseio/reactivesearch";
 
 import "./index.css";
 import Card from "./components/Card";
-import TypingEffect from "./components/TypingEffect";
-import { useEffect, useState } from "react";
-import { formatText } from "./utils/helper";
+import { useState } from "react";
+
 const SEARCHBOX_COMPONENT_ID = "search";
 const Main = () => {
-  const [aiResponse, setAiResponse] = useState("");
   const [isResultsLoading, setIsResultsLoading] = useState(false);
-
-  useEffect(() => {
-    if (aiResponse && isResultsLoading) {
-      setAiResponse("");
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isResultsLoading]);
 
   return (
     <ReactiveBase
       app="movies-demo-app"
       url="https://a03a1cb71321:75b6603d-9456-4a5a-af6b-a487b309eb61@appbase-demo-ansible-abxiydt-arc.searchbase.io"
+      reactivesearchAPIConfig={{
+        recordAnalytics: false,
+        userId: "jon",
+      }}
       theme={{
         typography: {
           fontFamily: "monospace",
@@ -34,41 +30,37 @@ const Main = () => {
         },
       }}
       enableAppbase
-      endpoint={{
-        url: "https://a03a1cb71321:75b6603d-9456-4a5a-af6b-a487b309eb61@appbase-demo-ansible-abxiydt-arc.searchbase.io/movies-ai/_reactivesearch",
-        method: "POST",
-      }}
-      transformResponse={async (elasticsearchResponse, componentId) => {
-        console.log({ componentId, elasticsearchResponse });
-        if (componentId === SEARCHBOX_COMPONENT_ID) {
-          setAiResponse(
-            elasticsearchResponse.chatGPTResponse.choices[0].message.content
-          );
-        }
-        return elasticsearchResponse;
-      }}
     >
       <div className="row">
         <div className="col">
           <SearchBox
             dataField={["original_title", "original_title.search"]}
             componentId={SEARCHBOX_COMPONENT_ID}
-            highlight
             URLParams
             searchboxId="q_and_a_search_ui"
             showClear
             debounce={500}
+            highlight={false}
           />
-          {!isResultsLoading && aiResponse && (
-            <div className="ai-response-wrapper">
-              <TypingEffect
-                message={formatText(aiResponse)}
-                speed={10}
-                eraseSpeed={20}
-                avatar={"https://www.svgrepo.com/show/361202/hubot.svg"}
-              />
-            </div>
+          {!isResultsLoading && (
+            <AIAnswer
+              componentId="ai-answer"
+              placeholder="Ask a question"
+              showVoiceInput
+              showIcon
+              react={{ and: [SEARCHBOX_COMPONENT_ID] }}
+              enableAI
+              AIConfig={{
+                docTemplate:
+                  "${source.text} is ${source.summary} with url as ${source.url}",
+                queryTemplate: "Answer the following: ${value}",
+                topDocsForContext: 7,
+              }}
+              title={<b>AI Chatbox</b>}
+              enterButton={true}
+            />
           )}
+
           <br />
           <ReactiveList
             componentId="SearchResult"
