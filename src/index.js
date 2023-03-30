@@ -53,7 +53,7 @@ const Main = () => {
               enableAI
               AIConfig={{
                 docTemplate:
-                  "${source.text} is ${source.summary} with url as ${source.url}",
+                  "Title is ${source.title}, overview is ${source.overview}, popularity is ${source.popularity}, vote average is ${source.vote_average}",
                 queryTemplate: "Answer the following: ${value}",
                 topDocsForContext: 7,
               }}
