@@ -59,6 +59,7 @@ const Main = () => {
               }}
               title={<b>AI Chatbox</b>}
               enterButton={true}
+              showFeedback={false}
             />
           )}
 
