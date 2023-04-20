@@ -57,7 +57,7 @@ const Main = () => {
                 queryTemplate: "Answer the following: ${value}",
                 topDocsForContext: 7,
               }}
-              title={<b>AI Chatbox</b>}
+              title={<b>AI Answer</b>}
               enterButton={true}
               showFeedback={false}
             />
